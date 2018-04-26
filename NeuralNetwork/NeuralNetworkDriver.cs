@@ -675,8 +675,8 @@ namespace NeuralNetwork
             }));
 
             double[][] transformedData = LetterNN.transformBitmapdata(data);
-            int epochs = 30;
-            int batchSize = 10;
+            int epochs = 10000;
+            int batchSize = 47;
             double[][] trainData = null;
             double[][] validset = null;
             char[] trainLabels = null;
@@ -914,7 +914,7 @@ namespace NeuralNetwork
 
         private void newLetterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int[] layers = new int[3] { 784, 100, 47 };
+            int[] layers = new int[3] { 784, 470, 47 };
             LetterNN.init(out letterNN, layers);
             pictureBoxAI.Image = Properties.Resources.ai;
             digit = true;

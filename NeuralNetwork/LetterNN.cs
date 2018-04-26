@@ -14,6 +14,9 @@ namespace NeuralNetwork
         /// </summary>
         public const int IMAGE_SIDE = 28;
 
+        /// <summary>
+        /// Maps the corresponding index with ascii value of char label
+        /// </summary>
         public static int[] MAPPING = new int[47]
         {
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57,

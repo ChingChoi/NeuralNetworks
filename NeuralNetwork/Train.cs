@@ -37,7 +37,7 @@ namespace NeuralNetwork
             {
                 DataStruct dataS = ArrayTransform.Shuffle<T>(data, labels);
                 int iteration = data.Length / batchSize;
-                for (int i = 0; i < iteration; i++)
+                for (int i = 0; i < 100; i++)
                 {
                     nn.BackPropInit(batchSize);
                     for (int batchIndex = 0; batchIndex < batchSize; batchIndex++)

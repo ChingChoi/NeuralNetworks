@@ -1,6 +1,8 @@
 # Neural networks - Digit recognition
 Author: Ryan Cha, Ching Choi
+
 Date:   2018-4-15
+
 How to create a digit AI and train with given data
 1. Create a digit AI (AI -> Digit -> New [Ctrl + Shift + D])
 2. Load training data (File -> Open [Ctrl + Shift + O])
@@ -26,3 +28,5 @@ How to use the digit AI
 4. The AI will print the determined output
 
 Similar methods for Letter AI
+
+Cohen, G., Afshar, S., Tapson, J., & van Schaik, A. (2017). EMNIST: an extension of MNIST to handwritten letters. Retrieved from http://arxiv.org/abs/1702.05373
