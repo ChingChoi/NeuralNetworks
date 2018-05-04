@@ -278,7 +278,7 @@ namespace NeuralNetwork
             title.ForeColor = themeColor;
             title.Text = "Neural Network";
             //
-            // ImageCompressor
+            // Neural network
             //
             Resize += new System.EventHandler(this.WindowResize);
             Controls.Add(panel);
