@@ -32,4 +32,8 @@ How to use the digit AI
 
 Similar methods for Letter AI
 
+![demo](https://github.com/ChingChoi/NeuralNetworks/blob/master/Resource/img/Demo.png)
+![demo-2](https://github.com/ChingChoi/NeuralNetworks/blob/master/Resource/img/demo-2.png)
+![training](https://github.com/ChingChoi/NeuralNetworks/blob/master/Resource/img/training.png)
+
 Cohen, G., Afshar, S., Tapson, J., & van Schaik, A. (2017). EMNIST: an extension of MNIST to handwritten letters. Retrieved from http://arxiv.org/abs/1702.05373
