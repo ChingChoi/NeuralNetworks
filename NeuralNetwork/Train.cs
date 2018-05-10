@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace NeuralNetwork
 {
     class Train<T>
     {
+        /// <summary>
+        /// Data structure of training data with its label of generic type
+        /// </summary>
         public struct DataStruct
         {
             public double[][] data;
@@ -31,7 +37,8 @@ namespace NeuralNetwork
         /// <param name="epochs">number of epochs</param>
         /// <param name="batchSize">Batch size</param>
         public static void trainNetwork(NeuralNetwork<T> nn, 
-            double[][] data, double[][] validset, T[] labels, T[] validsetLabels, int epochs, int batchSize, NeuralNetwork.CustomTextBox aiTextBox)
+            double[][] data, double[][] validset, T[] labels, T[] validsetLabels, 
+            int epochs, int batchSize, NeuralNetwork.CustomTextBox aiTextBox)
         {
             for (int e = 0; e < epochs; e++)
             {
@@ -40,20 +47,26 @@ namespace NeuralNetwork
                 for (int i = 0; i < iteration; i++)
                 {
                     nn.BackPropInit(batchSize);
+                    //int testIndex = 0;
                     for (int batchIndex = 0; batchIndex < batchSize; batchIndex++)
                     {
                         nn.InitdCda();
-                        nn.getInputs(dataS.data[batchIndex + i * batchSize], dataS.labels[batchIndex + i * batchSize]);
+                        nn.getInputs(dataS.data[batchIndex + i * batchSize], 
+                            dataS.labels[batchIndex + i * batchSize]);
                         nn.calcOutput();
                         nn.calculateCost(dataS.labels[batchIndex + i * batchSize]);
                         nn.calcGradientVector();
+                        //if (batchIndex == batchSize - 1)
+                        //{
+                        //    testIndex = batchIndex + i * batchSize;
+                        //}
                     }
                     nn.BackPropApplication();
                 }
                 trainResult(nn, validset, validsetLabels, e, validset.Length, aiTextBox);
             }
         }
-
+        
         /// <summary>
         /// Print out epoch sessions
         /// </summary>
@@ -94,6 +107,35 @@ namespace NeuralNetwork
                 aiTextBox.Invoke(new Action(() =>
                 {
                     aiTextBox.Text += "\nEpoch " + curEpoch + ": " + success + " / " + batchSize;
+                }));
+            }
+        }
+        
+        /// <summary>
+        /// Write message to AI Text Box
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <param name="aiTextBox">AI text box</param>
+        public static void WriteToAITextBox(String message, NeuralNetwork.CustomTextBox aiTextBox)
+        {
+            if (aiTextBox.Lines.Length == 6)
+            {
+                NeuralNetwork.CustomTextBox temp = new NeuralNetwork.CustomTextBox();
+                for (int i = 1; i < aiTextBox.Lines.Length; i++)
+                {
+                    temp.Text += aiTextBox.Lines[i] + "\n";
+                }
+                temp.Text += message;
+                aiTextBox.Invoke(new Action(() =>
+                {
+                    aiTextBox.Text = temp.Text;
+                }));
+            }
+            else
+            {
+                aiTextBox.Invoke(new Action(() =>
+                {
+                    aiTextBox.Text += message;
                 }));
             }
         }

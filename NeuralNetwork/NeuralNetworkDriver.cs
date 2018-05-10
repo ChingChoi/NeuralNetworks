@@ -57,6 +57,7 @@ namespace NeuralNetwork
         private Graphics G;
         private Bitmap B;
         private SolidBrush brush;
+        private Size brushSize;
         private const int LETTER_SIDE = 28;
         /// <summary>
         /// Bitmaps
@@ -103,6 +104,7 @@ namespace NeuralNetwork
         /// </summary>
         private void InitializeDrawing()
         {
+            brushSize = new Size(1, 1);
             B = new Bitmap(28, 28);
             G = Graphics.FromImage(B);
         }
@@ -118,7 +120,7 @@ namespace NeuralNetwork
             {
                 int cX = (int)((double)e.X / (double)pictureBoxOne.Width * LETTER_SIDE);
                 int cY = (int)((double)e.Y / (double)pictureBoxOne.Width * LETTER_SIDE);
-                G.DrawEllipse(Pens.Cyan, new Rectangle(new Point(cX, cY), new Size(2, 2)));
+                G.DrawEllipse(Pens.Cyan, new Rectangle(new Point(cX, cY), brushSize));
             }
             pictureBoxOne.Image = B;
         }
@@ -305,14 +307,22 @@ namespace NeuralNetwork
                 panel.Size = new Size(w, h - PANEL_VERT_OFFSET);
                 maxForm.Location = new Point(w - MAX_FORM_HORZ_OFFSET, 0);
                 minForm.Location = new Point(w - MIN_FORM_HORZ_OFFSET, 0);
-                pictureBoxOne.Size = new Size(w / 2 - PICTUREBOX_OFFSET * 3 / 2, h - 54 - PICTUREBOX_OFFSET * 2);
-                aiPanel.Size = new Size(w / 2 - PICTUREBOX_OFFSET * 3 / 2, h - 54 - PICTUREBOX_OFFSET * 2);
-                aiPanel.Location = new Point(w / 2 + PICTUREBOX_OFFSET_HALF, 27 + PICTUREBOX_OFFSET);
-                pictureBoxAI.Size = new Size(aiPanel.Size.Width - PICTUREBOX_OFFSET_HALF * 2, aiPanel.Size.Height - PICTUREBOX_OFFSET_HALF * 3 - AI_TEXTBOX_SIZE);
-                aiTextBox.Location = new Point(PICTUREBOX_OFFSET_HALF, pictureBoxAI.Size.Height + PICTUREBOX_OFFSET_HALF * 2);
-                aiTextBox.Size = new Size((int)(pictureBoxAI.Size.Width * 0.9f) - PICTUREBOX_OFFSET_HALF, AI_TEXTBOX_SIZE);
-                aiDetermineButton.Location = new Point(aiTextBox.Size.Width + PICTUREBOX_OFFSET_HALF * 2, aiTextBox.Location.Y);
-                aiDetermineButton.Size = new Size(pictureBoxAI.Size.Width - aiTextBox.Size.Width - PICTUREBOX_OFFSET_HALF, aiTextBox.Size.Height);
+                pictureBoxOne.Size = new Size(w / 2 - PICTUREBOX_OFFSET * 3 / 2, 
+                    h - 54 - PICTUREBOX_OFFSET * 2);
+                aiPanel.Size = new Size(w / 2 - PICTUREBOX_OFFSET * 3 / 2, 
+                    h - 54 - PICTUREBOX_OFFSET * 2);
+                aiPanel.Location = new Point(w / 2 + PICTUREBOX_OFFSET_HALF, 
+                    27 + PICTUREBOX_OFFSET);
+                pictureBoxAI.Size = new Size(aiPanel.Size.Width - PICTUREBOX_OFFSET_HALF * 2, 
+                    aiPanel.Size.Height - PICTUREBOX_OFFSET_HALF * 3 - AI_TEXTBOX_SIZE);
+                aiTextBox.Location = new Point(PICTUREBOX_OFFSET_HALF, 
+                    pictureBoxAI.Size.Height + PICTUREBOX_OFFSET_HALF * 2);
+                aiTextBox.Size = new Size((int)(pictureBoxAI.Size.Width * 0.9f) - 
+                    PICTUREBOX_OFFSET_HALF, AI_TEXTBOX_SIZE);
+                aiDetermineButton.Location = new Point(aiTextBox.Size.Width + 
+                    PICTUREBOX_OFFSET_HALF * 2, aiTextBox.Location.Y);
+                aiDetermineButton.Size = new Size(pictureBoxAI.Size.Width - 
+                    aiTextBox.Size.Width - PICTUREBOX_OFFSET_HALF, aiTextBox.Size.Height);
             }
         }
 
@@ -620,12 +630,26 @@ namespace NeuralNetwork
                     {
                         temp.Text += aiTextBox.Lines[i] + "\n";
                     }
-                    temp.Text += "I think it is a " + result + " :)";
+                    if (result != 0)
+                    {
+                        temp.Text += "I think it is a " + result + " :)";
+                    }
+                    else
+                    {
+                        temp.Text += "I'm not sure :(";
+                    }
                     aiTextBox.Text = temp.Text;
                 }
                 else
                 {
-                    aiTextBox.Text += "\nI think it is a " + result + " :)";
+                    if (result != 0)
+                    {
+                        aiTextBox.Text += "\nI think it is a " + result + " :)";
+                    }
+                    else
+                    {
+                        aiTextBox.Text += "\nI'm not sure :(";
+                    }
                 }
             }
         }
@@ -685,7 +709,7 @@ namespace NeuralNetwork
             if (labelsLetter.Length == 88800)
             {
                 LetterNN.splitIntoTrainAndValidset(transformedData, out trainData, out validset, testDataLength);
-                LetterNN.splitIntoTrainAndValidsetLabels(labelsLetter, out trainLabels, out validsetLabels, labelsLetter.Length - testDataLength);
+                LetterNN.splitIntoTrainAndValidsetLabels(labelsLetter, out trainLabels, out validsetLabels, testDataLength);
             }
             Train<char>.trainNetwork(letterNN, trainData, validset, labelsLetter, validsetLabels, epochs, batchSize, aiTextBox);
             pictureBoxAI.Image = Properties.Resources.ai;
@@ -914,7 +938,7 @@ namespace NeuralNetwork
 
         private void newLetterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int[] layers = new int[3] { 784, 100, 47 };
+            int[] layers = new int[3] { 784, 370, 37 };
             LetterNN.init(out letterNN, layers);
             pictureBoxAI.Image = Properties.Resources.ai;
             digit = true;

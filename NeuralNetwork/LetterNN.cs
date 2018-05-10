@@ -14,6 +14,11 @@ namespace NeuralNetwork
         /// </summary>
         public const int IMAGE_SIDE = 28;
 
+        /// <summary>
+        /// Offset to skip digits
+        /// </summary>
+        public const int MAP_OFFSET = 10;
+
         public static int[] MAPPING = new int[47]
         {
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
@@ -31,9 +36,9 @@ namespace NeuralNetwork
         public static void init(out NeuralNetwork<char> nw, int[] layers)
         {
             char[] meaning = new char[layers[layers.Length - 1]];
-            for (int i = 0; i < meaning.Length; i++)
+            for (int i = MAP_OFFSET; i < meaning.Length + MAP_OFFSET; i++)
             {
-                meaning[i] = (char) MAPPING[i];
+                meaning[i - MAP_OFFSET] = (char) MAPPING[i];
             }
             nw = new NeuralNetwork<char>(layers, meaning);
         }

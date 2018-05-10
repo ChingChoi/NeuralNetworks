@@ -46,7 +46,7 @@ namespace NeuralNetwork
         /// <summary>
         /// A threshold for determining output validity
         /// </summary>
-        private const double threshold = 0.5f;
+        private const double threshold = 0.5;
 
         private Random random;
 
@@ -385,10 +385,9 @@ namespace NeuralNetwork
                 for (int curdCda = 0; curdCda < dCda[hL].Length; curdCda++)
                 {
                     // dCda[0][0] +=   neurons[1][0...10] * dsig( weight[1] * neurons[1][0] + b[1][0..10]
-
                     dCda[hL - 1][i] += Weights[hL][curdCda][i] * derivativeSigmoid(Logit(neurons[hL + 1][curdCda])) * dCda[hL][curdCda];
                 }
-                //dCda[hL - 1][i] /= dCda[hL].Length;
+                // dCda[hL - 1][i] /= dCda[hL].Length;
                 // we have previous layer's dCda[hL]
                 // for every weight to be adjusted
                 for (int w = 0; w < Weights[hL - 1][i].Length; w++)
@@ -413,7 +412,7 @@ namespace NeuralNetwork
                 {
                     for (int k = 0; k < Weights[i][j].Length; k++)
                     {
-                        Weights[i][j][k] -= n * backPropstruct.deltW[i][j][k] / (double)backPropstruct.batchSize;
+                        Weights[i][j][k] -= n * backPropstruct.deltW[i][j][k] / backPropstruct.batchSize;
                     }
                 }
             }
@@ -421,7 +420,7 @@ namespace NeuralNetwork
             {
                 for (int j = 0; j < Biases[i].Length; j++)
                 {
-                    Biases[i][j] -= n * backPropstruct.deltB[i][j] / (double)backPropstruct.batchSize;
+                    Biases[i][j] -= n * backPropstruct.deltB[i][j] / backPropstruct.batchSize;
                 }
             }
         }
